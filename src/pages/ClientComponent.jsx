@@ -6,7 +6,6 @@ import "@reown/appkit-wallet-button/react";
 
 export default function ClientComponent() {
     const { disconnect } = useDisconnect();
-    const isAuth = store("AUTH").get()
 
     const { caipNetwork, caipNetworkId, chainId } = useAppKitNetwork()
     console.log({ caipNetwork, caipNetworkId, chainId });
