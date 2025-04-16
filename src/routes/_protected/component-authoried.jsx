@@ -1,10 +1,13 @@
 import { useAppKitAccount, useAppKitNetwork, useDisconnect } from '@reown/appkit/react';
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import { store } from '../localstorageUtils';
 import "@reown/appkit-wallet-button/react";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { store } from '../../localstorageUtils';
 
-export default function ClientComponent() {
+export const Route = createFileRoute("/_protected/component-authoried")({
+    component: ClientComponent,
+});
+function ClientComponent() {
     const { disconnect } = useDisconnect();
 
     const { caipNetwork, caipNetworkId, chainId } = useAppKitNetwork()
@@ -21,7 +24,7 @@ export default function ClientComponent() {
         try {
             await disconnect();
             store("AUTH").clear()
-            navigate('/')
+            navigate({ to: '/' })
         } catch (error) {
             console.error("Failed to disconnect:", error);
         }

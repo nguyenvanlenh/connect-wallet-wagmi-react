@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
-import { wagmiAdapter } from '../config'
 import { useAppKit, useAppKitAccount, useAppKitNetwork, useDisconnect } from '@reown/appkit/react'
-import { useNavigate } from 'react-router-dom'
+
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { store } from '../localstorageUtils'
+import { wagmiAdapter } from '../config'
 import SignMessage from '../components/SignMessage'
-
-
 const queryClient = new QueryClient()
 
-export default function HomeComponent() {
+export const Route = createFileRoute("/")({
+    component: HomeComponent,
+});
+
+
+function HomeComponent() {
     const navigate = useNavigate();
     const { address, isConnected } = useAppKitAccount()
     const { chainId } = useAppKitNetwork()
@@ -75,7 +79,7 @@ export default function HomeComponent() {
                     setSignedMsg("")
                     setIsExecuteSignMsg(false)
                 }
-                navigate('/component-authoried')
+                navigate({ to: "/component-authoried" })
             } catch (error) {
                 handleDisconnect();
                 setIsExecuteSignMsg(false)
